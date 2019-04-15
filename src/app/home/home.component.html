@@ -1,0 +1,16 @@
+<ActionBar class="action-bar">
+    <Label class="action-bar-title" [text]="titleApp"></Label>
+</ActionBar>
+
+<GridLayout class="page">
+
+    <StackLayout marginTop="10%">
+        <Label text="Id credencial" fontSize="18"></Label>
+        <Label [text]="secret" fontSize="17" color="green" marginTop="5"></Label>
+    </StackLayout>
+    
+    <StackLayout orientation="vertical" verticalAlignment="center">
+        <circular-progress-bar [progress]="cuentaNextTick" [periodoExp]="periodoExp" [token]="token" [size]="250"></circular-progress-bar>   
+    </StackLayout>
+
+</GridLayout>

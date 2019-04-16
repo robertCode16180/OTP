@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
-
-// import * as otplib from 'otplib';
+import { getString, setString, hasKey, remove, clear } from "tns-core-modules/application-settings";
+import { PlatformModuleService } from './platform-module.service';
+import { base32tohex } from '../funciones/base32';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenerateOTPService {
-  private secret = 'TPQDAHVBZ5NBO5LFEQKC7V7UPATSSMFY';
-  
-  constructor() { 
 
+  constructor(private platformService: PlatformModuleService) { 
   }
 
-  get credencial(): string {
-    return this.secret;
+  get getIDcredential(): string {
+    return this.generateBase32();
   }
 
+  generateBase32(): string {
+    const buffer = this.platformService.deviceInformation.uuid;
+    return base32tohex(buffer).toUpperCase();
+  }
 
 }

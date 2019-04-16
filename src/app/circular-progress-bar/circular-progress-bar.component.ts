@@ -9,11 +9,11 @@ import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core
                 <ScaleStyle tkRadialScaleStyle ticksVisible="false" labelsVisible="false" lineThickness="0">
                 </ScaleStyle>
                 <RadialBarIndicator tkRadialScaleIndicators minimum="0" maximum="100">
-                    <BarIndicatorStyle tkRadialBarIndicatorStyle [fillColor]="fillBackgroundColor" cap="Round" barWidth="0.1">
+                    <BarIndicatorStyle tkRadialBarIndicatorStyle [fillColor]="fillBackgroundColor" cap="Round" barWidth="0.05">
                     </BarIndicatorStyle>
                 </RadialBarIndicator>
                 <RadialBarIndicator tkRadialScaleIndicators minimum="0" [maximum]="progreso" isAnimated="true">
-                    <BarIndicatorStyle tkRadialBarIndicatorStyle [fillColor]="fillColor" cap="Round" barWidth="0.1">
+                    <BarIndicatorStyle tkRadialBarIndicatorStyle [fillColor]="fillColor" cap="Round" barWidth="0.05">
                     </BarIndicatorStyle>
                 </RadialBarIndicator>
             </RadialScale>

@@ -20,23 +20,23 @@ interface OptionsToken {
 })
 export class HomeComponent implements OnInit {
     titleApp: string;
-    secret: string;
     token: string;
     otp: OTP;
     options: OptionsToken;
     epochSnapshot: number;
     periodoExp: number;
     cuentaNextTick: number;
+    secret: string;
 
     constructor(private generateOTP: GenerateOTPService) {
-        this.titleApp = 'Serco Vip Acces';
-        this.secret = 'TPQDAHVBZ5NBO5LFEQKC7V7UPATSSMFY';
+        this.titleApp = 'Serco Vip Access';
         this.options = {
             algorithm: "sha256", 
             digits: 6,
-            period: 15
+            period: 30
         }
         this.epochSnapshot = 0;
+        this.secret = this.generateOTP.getIDcredential;
     }
 
     ngOnInit(): void {
@@ -44,13 +44,7 @@ export class HomeComponent implements OnInit {
         console.log('*** run ngOnInit ***');
         const token = this.otp.getToken(-1);
         this.token = this.normalizeToken(token);
-        // console.log('anterior ', this.otp.getToken(-1));
-        // console.log('actual ',this.otp.getToken(0));
-        // console.log('prox ', this.otp.getToken(1));
-        // console.log('********************');
         this.ticker();
-        const generateOTP = this.generateOTP.credencial;
-        console.log(generateOTP);
     }
 
     private ticker() {
@@ -58,7 +52,7 @@ export class HomeComponent implements OnInit {
         this.periodoExp = this.options.period;
         this.cuentaNextTick = (this.periodoExp - (epoch % this.periodoExp));
         if (epoch % this.periodoExp == 0) {
-            if(epoch > this.epochSnapshot + 5) {
+            if(epoch > this.epochSnapshot) {
                 this.epochSnapshot = epoch;
                 const token = this.otp.getToken();
                 this.token = this.normalizeToken(token);
@@ -66,18 +60,20 @@ export class HomeComponent implements OnInit {
         }
         setTimeout(() => {
             this.ticker();
-        }, 1000);
+        }, 100);
     }
 
     private normalizeToken(token: string): string {
-        if (token === this.otp.getToken(0)) {
-            // console.log('token iguales de debe generar uno nuevo!!!!!!');
-            token = this.otp.getToken();
-        }
         const totalLength =  token.length;
         const firtsLength = Math.round(totalLength / 2);
         const firstPart = token.substring(0, firtsLength);
         const seconPart = token.substring(firtsLength, totalLength);
         return `${firstPart}  ${seconPart}`;
+    }
+
+    get parcialID(): string {
+        const length = this.secret.length;
+        const parcial = this.secret.substring(length - 4, length); 
+        return parcial;
     }
 }

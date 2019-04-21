@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: "circular-progress-bar",
@@ -19,7 +19,7 @@ import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core
             </RadialScale>
         </RadRadialGauge>
         <StackLayout marginTop="20%">
-            <Label text="Token de Seguridad" fontSize="20" class="m-x-auto" marginTop="20"></Label>
+            <Label text="Token de Seguridad" fontSize="18" class="m-x-auto" marginTop="20"></Label>
             <Label [text]="token" fontSize="35" fontWeight="bold" class="m-x-auto text-token" marginTop="15"></Label>
             <Label [text]="cuentaRegresiva" fontSize="18" class="m-x-auto" marginTop="35"></Label>
         </StackLayout>
@@ -39,18 +39,23 @@ export class CircularProgressBarComponent implements OnInit {
     @Input() periodoExp = 0;
 
     constructor() {
+        
     }
 
     ngOnInit(): void {
-
+        console.log(this.periodoExp);
     }
 
     get height(): number {
         return Math.min(this.size, 300);
     };
 
+    get scaleTime() {
+        return Math.round(100 / this.periodoExp);
+    }
+
     get progreso(): number {
-        return Math.round( this.progress * ( 100 / this.periodoExp ) );
+        return this.progress * (100 / this.periodoExp);
     }
 
     get cuentaRegresiva() {

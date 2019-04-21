@@ -8,6 +8,7 @@ function leftpad(value: string, length: number, pad: string): string {
   } 
 
 export function base32tohex(base32: string): string {
+      console.log('base32', base32);
       let base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
       let bits = "";
       let hex = "";
@@ -19,5 +20,6 @@ export function base32tohex(base32: string): string {
           let chunk = bits.substr(i, 4);
           hex = hex + parseInt(chunk, 2).toString(16) ;
       }
+      console.log('base32tohex output ', hex);
       return hex;
 }

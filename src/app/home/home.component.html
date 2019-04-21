@@ -4,13 +4,13 @@
 
 <GridLayout class="page">
 
-    <StackLayout marginTop="10%">
-        <Label text="Id Credencial" fontSize="18"></Label>
-        <Label [text]="parcialID" fontSize="30" fontWeight="600" color="green" marginTop="5"></Label>
+    <StackLayout marginTop="12%">
+        <Label text="Id Credencial" fontSize="15"></Label>
+        <Label [text]="secret" fontSize="18" color="green" marginTop="5"></Label>
     </StackLayout>
     
     <StackLayout orientation="vertical" verticalAlignment="center">
-        <circular-progress-bar [progress]="cuentaNextTick" [periodoExp]="periodoExp" [token]="token" [size]="250"></circular-progress-bar>   
+        <circular-progress-bar [progress]="cuentaNextTick" [periodoExp]="periodoExp" [token]="token" [size]="220"></circular-progress-bar>   
     </StackLayout>
 
 </GridLayout>

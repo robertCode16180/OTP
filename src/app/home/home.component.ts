@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import OTP from 'otp-client';
 import { GenerateOTPService } from "../services/generate-otp.service";
 
@@ -13,12 +13,13 @@ interface OptionsToken {
 }
 
 @Component({
-    selector: "Home",
     moduleId: module.id,
+    selector: "Home",
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.css"]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+    
     titleApp: string;
     token: string;
     otp: OTP;
@@ -27,8 +28,10 @@ export class HomeComponent implements OnInit {
     periodoExp: number;
     cuentaNextTick: number;
     secret: string;
+    parcialID: string;
 
     constructor(private generateOTP: GenerateOTPService) {
+        console.log('******* constructor *******');
         this.titleApp = 'Serco Vip Access';
         this.options = {
             algorithm: "sha256", 
@@ -36,44 +39,40 @@ export class HomeComponent implements OnInit {
             period: 30
         }
         this.epochSnapshot = 0;
-        this.secret = this.generateOTP.getIDcredential;
-    }
-
-    ngOnInit(): void {
+        this.secret = this.generateOTP.UUID;
         this.otp = new OTP(this.secret, this.options);
-        console.log('*** run ngOnInit ***');
+        this.periodoExp = this.options.period;
         const token = this.otp.getToken(-1);
         this.token = this.normalizeToken(token);
+        this.cuentaNextTick = this.periodoExp;
+    }
+
+    ngAfterViewInit(): void {
+        console.log('ngAfterViewInit');
         this.ticker();
     }
 
+    ngOnInit(): void {
+        console.log('ngOnInit');
+    }
+    
     private ticker() {
-        let epoch = Math.round(new Date().getTime() / 1000.0);
-        this.periodoExp = this.options.period;
-        this.cuentaNextTick = (this.periodoExp - (epoch % this.periodoExp));
-        if (epoch % this.periodoExp == 0) {
-            if(epoch > this.epochSnapshot) {
-                this.epochSnapshot = epoch;
+        setInterval(() => {
+            --this.cuentaNextTick;
+            if (this.cuentaNextTick < 0) {
                 const token = this.otp.getToken();
                 this.token = this.normalizeToken(token);
+                this.cuentaNextTick = this.periodoExp;
             }
-        }
-        setTimeout(() => {
-            this.ticker();
-        }, 100);
+        } , 1000);
     }
 
     private normalizeToken(token: string): string {
+        console.log('normalizeToken: ', token);
         const totalLength =  token.length;
         const firtsLength = Math.round(totalLength / 2);
         const firstPart = token.substring(0, firtsLength);
         const seconPart = token.substring(firtsLength, totalLength);
         return `${firstPart}  ${seconPart}`;
-    }
-
-    get parcialID(): string {
-        const length = this.secret.length;
-        const parcial = this.secret.substring(length - 4, length); 
-        return parcial;
     }
 }

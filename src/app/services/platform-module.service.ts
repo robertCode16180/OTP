@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'tns-core-modules/data/observable';
 
 import { DeviceInfoModels } from './device-info-models';
 import { ScreenInfo } from './screen-info-models';
@@ -8,9 +7,8 @@ import { ScreenInfo } from './screen-info-models';
 @Injectable({
   providedIn: 'root'
 })
-export class PlatformModuleService extends Observable {
+export class PlatformModuleService {
     constructor() {
-        super();
         this.deviceInformation = new DeviceInfoModels();
         this.screenInformation = new ScreenInfo();
     }
